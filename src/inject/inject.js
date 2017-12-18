@@ -48,16 +48,22 @@ const hideTooltip = function(event, template) {
   template.style.visibility = "hidden";
 }
 
-const addEventListenersOnCashtags = function(template) {
-  const cashTagsElements = document.querySelectorAll('.twitter-cashtag');
-  // TODO Add support for twitter-hashtag (ie #Bitcoin, #LTC)
+const liveListener = function(eventType, elementQuerySelector, cb) {
+  document.addEventListener(eventType, function (event) {
 
-  for (let i = 0; i < cashTagsElements.length; ++i) {
-    const cashTagsElement = cashTagsElements[i];
+    var qs = document.querySelectorAll(elementQuerySelector);
 
-    cashTagsElement.addEventListener('mouseover', (event) => displayTooltipOnCashtag(event, template))
-    cashTagsElement.addEventListener('mouseout', (event) => hideTooltip(event, template))
-  }
+    if (qs) {
+      var el = event.target, index = -1;
+      while (el && ((index = Array.prototype.indexOf.call(qs, el)) === -1)) {
+        el = el.parentElement;
+      }
+
+      if (index > -1) {
+        cb.call(el, event);
+      }
+    }
+  });
 }
 
 // Init extensions
@@ -71,19 +77,20 @@ chrome.extension.sendMessage({}, function (response) {
       console.log("Crypthover extension activated");
       // ----------------------------------------------------------
 
+      // Inject HTML
+      const template = document.createElement('div');
+      template.className = "crypthover"
+      document.body.appendChild(template);
+
       // Get crypto datas
       fetch('https://min-api.cryptocompare.com/data/all/coinlist')
         .then(response => response.json())
         .then(json => {
           CRYPTOS_DATA = json.Data;
 
-          // Inject HTML
-          const template = document.createElement('div');
-          template.className = "crypthover"
-          document.body.appendChild(template);
-
-          // Add event listener on hover
-          addEventListenersOnCashtags(template);
+          // Add event listener
+          liveListener("mouseover", ".twitter-cashtag", (event) => displayTooltipOnCashtag(event, template))
+          liveListener("mouseout", ".twitter-cashtag", (event) => hideTooltip(event, template))
         })
     }
   }, 10);
