@@ -1,10 +1,6 @@
 /**
  * Place your custom CSS styles here.
  **/
-body {
-    background-color: black !important;
-}
-
 .crypthover {
     visibility: hidden;
     position: absolute;
@@ -15,4 +11,5 @@ body {
     border-radius: 8px;
     border: 1px solid grey;
     padding: 8px;
+    color: black;
 }
