@@ -13,3 +13,7 @@
     padding: 8px;
     color: black;
 }
+
+.crypthover a.crypto-website {
+    font-weight: bold;
+}

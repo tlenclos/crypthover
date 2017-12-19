@@ -10,6 +10,8 @@ const intlFormatter = new Intl.NumberFormat('en-US', {
 const getHtmlTemplate = function(currency, price) {
   console.log(currency);
 
+  const url = `https://www.cryptocompare.com/coins/${currency.Name}/overview`;
+
   return `
     <p>
         <h2><img src="https://www.cryptocompare.com${currency.ImageUrl}" width="30" /> ${currency.CoinName}</h2>
@@ -18,7 +20,7 @@ const getHtmlTemplate = function(currency, price) {
         ${price.EUR}€<br />
         ${intlFormatter.format(price.USD)}
     </p>
-    <p>Total coins supply ${intlFormatter.format(currency.TotalCoinSupply)}</p>
+    <p><a class="crypto-website" href="${url}" target="_blank">See on cryptocompare</a></p>
   `
 }
 
