@@ -1,4 +1,5 @@
 var CRYPTOS_DATA = {};
+var FOCUS_ON_TOOLTIP = false;
 
 const intlFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -39,13 +40,17 @@ const displayTooltipOnCashtag = function(event, template) {
 
       template.innerHTML = getHtmlTemplate(currency, price);
       template.style.visibility = "visible";
-      template.style.top = `${event.pageY}px`;
-      template.style.left = `${event.pageX}px`;
+      template.style.top = `${event.pageY-10}px`;
+      template.style.left = `${event.pageX-10}px`;
     })
 }
 
-const hideTooltip = function(event, template) {
-  template.style.visibility = "hidden";
+const hideTooltip = function(event, template, timeout = 0) {
+  setTimeout(() => {
+    if (!FOCUS_ON_TOOLTIP) {
+      template.style.visibility = "hidden";
+    }
+  }, timeout);
 }
 
 const liveListener = function(eventType, elementQuerySelector, cb) {
@@ -82,6 +87,15 @@ chrome.extension.sendMessage({}, function (response) {
       template.className = "crypthover"
       document.body.appendChild(template);
 
+      template.addEventListener("mouseover", () => {
+        FOCUS_ON_TOOLTIP = true;
+        console.log(FOCUS_ON_TOOLTIP);
+      })
+      template.addEventListener("mouseout", () => {
+        FOCUS_ON_TOOLTIP = false;
+        hideTooltip(event, template);
+      })
+
       // Get crypto datas
       fetch('https://min-api.cryptocompare.com/data/all/coinlist')
         .then(response => response.json())
@@ -90,7 +104,7 @@ chrome.extension.sendMessage({}, function (response) {
 
           // Add event listener
           liveListener("mouseover", ".twitter-cashtag", (event) => displayTooltipOnCashtag(event, template))
-          liveListener("mouseout", ".twitter-cashtag", (event) => hideTooltip(event, template))
+          liveListener("mouseout", ".twitter-cashtag", (event) => hideTooltip(event, template, 500))
         })
     }
   }, 10);
