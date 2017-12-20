@@ -27,7 +27,7 @@ const getHtmlTemplate = function(currency, price) {
 // Functions
 const displayTooltipOnCashtag = function(event, template) {
   console.log('event', event.target.innerHTML);
-  const currencyTag = event.target.innerHTML;
+  const currencyTag = event.target.innerHTMLtoUpperCase();
 
   if (!CRYPTOS_DATA[currencyTag]) {
     return;
