@@ -10,24 +10,24 @@ const intlFormatter = new Intl.NumberFormat('en-US', {
 const getHtmlTemplate = function(currency, price) {
   console.log(currency);
 
-  const url = `https://www.cryptocompare.com/coins/${currency.Name}/overview`;
+  const url = `https://coinmarketcap.com/currencies/${currency.CoinName}`;
 
+  // <canvas id="crypto-chart" width="300" height="250"></canvas>
   return `
     <p>
         <h2><img src="https://www.cryptocompare.com${currency.ImageUrl}" width="30" /> ${currency.CoinName}</h2>
     </p>
     <p>
-        ${price.EUR}€<br />
         ${intlFormatter.format(price.USD)}
     </p>
-    <p><a class="crypto-website" href="${url}" target="_blank">See on cryptocompare</a></p>
+    <p><a class="crypto-website" href="${url}" target="_blank">See on coinmarketcap</a></p>
   `
 }
 
 // Functions
 const displayTooltipOnCashtag = function(event, template) {
-  console.log('event', event.target.innerHTML);
-  const currencyTag = event.target.innerHTML;
+  const currencyTag = event.target.innerHTML.toUpperCase();
+  console.log('currencyTag', currencyTag);
 
   if (!CRYPTOS_DATA[currencyTag]) {
     return;
@@ -35,16 +35,20 @@ const displayTooltipOnCashtag = function(event, template) {
 
   const currency = CRYPTOS_DATA[currencyTag];
   event.target.style.cursor = "progress";
-  fetch(`https://min-api.cryptocompare.com/data/price?fsym=${currencyTag}&tsyms=USD,EUR`)
-    .then(response => response.json())
-    .then(price => {
-      event.target.style.cursor = "auto";
+  const getPrice = fetch(`https://min-api.cryptocompare.com/data/price?fsym=${currencyTag}&tsyms=USD`).then(response => response.json());
+  const getHistory = fetch(`https://min-api.cryptocompare.com/data/histohour?fsym=${currencyTag}&tsym=USD&limit=24&aggregate=1`).then(response => response.json());
 
-      template.innerHTML = getHtmlTemplate(currency, price);
-      template.style.visibility = "visible";
-      template.style.top = `${event.pageY-10}px`;
-      template.style.left = `${event.pageX-10}px`;
-    })
+  Promise.all([getPrice, getHistory]).then(responses => {
+    const price = responses[0];
+    const history = responses[1];
+    console.log(history);
+
+    event.target.style.cursor = "auto";
+    template.innerHTML = getHtmlTemplate(currency, price);
+    template.style.visibility = "visible";
+    template.style.top = `${event.pageY-10}px`;
+    template.style.left = `${event.pageX-10}px`;
+  })
 }
 
 const hideTooltip = function(event, template, timeout = 0) {
@@ -105,8 +109,8 @@ chrome.extension.sendMessage({}, function (response) {
           CRYPTOS_DATA = json.Data;
 
           // Add event listener
-          liveListener("mouseover", ".twitter-cashtag", (event) => displayTooltipOnCashtag(event, template))
-          liveListener("mouseout", ".twitter-cashtag", (event) => hideTooltip(event, template, 500))
+          liveListener("mouseover", ".twitter-cashtag, .twitter-hashtag", (event) => displayTooltipOnCashtag(event, template))
+          liveListener("mouseout", ".twitter-cashtag, .twitter-hashtag", (event) => hideTooltip(event, template, 500))
         })
     }
   }, 10);

@@ -27,6 +27,7 @@
         "src/inject/inject.css"
       ],
       "js": [
+        "src/inject/Chart.js",
         "src/inject/inject.js"
       ]
     }
