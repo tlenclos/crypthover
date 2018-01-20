@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://chrome.google.com/webstore/detail/crypthover/kkmbecnhcledkjgdfgfbnochegmipifm">Crypthover</a
+<a href="https://chrome.google.com/webstore/detail/crypthover/kkmbecnhcledkjgdfgfbnochegmipifm"><img src="https://raw.githubusercontent.com/tlenclos/crypthover/master/icons/icon128.png" /></a
 </p>
 
 # What is Cryphover ?
@@ -8,7 +8,7 @@ Crypthover is a browser extension for Chrome, Firefox and Opera which allows you
 
 # Install
 
-<a href="https://chrome.google.com/webstore/detail/octolinker/jlmafbaeoofdegohdhinkhilhclaklkp"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_128x128.png" width="48" /></a>
+<a href="https://chrome.google.com/webstore/detail/crypthover/kkmbecnhcledkjgdfgfbnochegmipifm"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_128x128.png" width="48" /></a>
 
 
 # Feedback please
