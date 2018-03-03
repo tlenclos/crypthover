@@ -8,7 +8,8 @@ const intlFormatter = new Intl.NumberFormat('en-US', {
 });
 
 const getHtmlTemplate = function(currency, price) {
-  const url = `https://coinmarketcap.com/currencies/${currency.CoinName}`;
+  const urlCMC = `https://coinmarketcap.com/currencies/${currency.CoinName}`;
+  const urlBitgur = `https://bitgur.com/coin/${currency.Name}`;
 
   // <canvas id="crypto-chart" width="300" height="250"></canvas>
   return `
@@ -18,7 +19,12 @@ const getHtmlTemplate = function(currency, price) {
     <p>
         ${intlFormatter.format(price.USD)}
     </p>
-    <p><a class="crypto-website" href="${url}" target="_blank">See on coinmarketcap</a></p>
+    <p>
+	<a class="crypto-website" href="${urlCMC}" target="_blank">See on CoinMarketCap</a>
+	</p>
+	    <p>
+	<a class="crypto-website" href="${urlBitgur}" target="_blank">See on Bitgur</a>
+	</p>
   `
 }
 
@@ -111,8 +117,8 @@ chrome.extension.sendMessage({}, function (response) {
           CRYPTOS_DATA = json.Data;
 
           // Add event listener
-          liveListener("mouseover", ".twitter-cashtag, .twitter-hashtag", (event) => displayTooltipOnCashtag(event, template))
-          liveListener("mouseout", ".twitter-cashtag, .twitter-hashtag", (event) => hideTooltip(event, template, 500))
+          liveListener("mouseover", ".twitter-cashtag, .twitter-hashtag, .link-complex", (event) => displayTooltipOnCashtag(event, template))
+          liveListener("mouseout", ".twitter-cashtag, .twitter-hashtag, .link-complex", (event) => hideTooltip(event, template, 500))
         })
     }
   }, 10);
