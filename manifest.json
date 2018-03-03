@@ -2,7 +2,7 @@
   "name": "Crypthover",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "Add an overlay on cash tags to know the current price",
+  "description": "Add an overlay on cash/hash tags to know the current price and many more informations (inc...)",
   "icons": {
     "128": "icons/icon128.png"
   },
@@ -18,7 +18,9 @@
     {
       "matches": [
         "https://www.twitter.com/*",
-        "https://twitter.com/*"
+        "https://twitter.com/*",
+		"https://tweetdeck.twitter.com/*",
+		"https://www.tweetdeck.twitter.com/*"
       ],
       "css": [
         "src/inject/inject.css"
