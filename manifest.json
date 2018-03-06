@@ -1,6 +1,6 @@
 {
   "name": "Crypthover",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "manifest_version": 2,
   "description": "Add an overlay on cash/hash tags to know the current price and many more informations (inc...)",
   "icons": {
