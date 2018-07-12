@@ -10,20 +10,24 @@ const intlFormatter = new Intl.NumberFormat('en-US', {
 const getHtmlTemplate = function(currency, price) {
   const urlCMC = `https://coinmarketcap.com/currencies/${currency.CoinName}`;
   const urlBitgur = `https://bitgur.com/coin/${currency.Name}`;
-
+  if (String(price.USD.CHANGEPCT24HOUR).charAt(0) == "-"){changeColor = "red"} else{changeColor = "green"}
   // <canvas id="crypto-chart" width="300" height="250"></canvas>
   return `
     <p>
-        <h2><img src="https://www.cryptocompare.com${currency.ImageUrl}" width="30" /> ${currency.CoinName}</h2>
+        <center><h2><img src="https://www.cryptocompare.com${currency.ImageUrl}" width="30" /> ${currency.CoinName}</h2></center>
     </p>
     <p>
-        ${intlFormatter.format(price.USD)}
+        ${intlFormatter.format(price.USD.PRICE)}  <font color="${changeColor}">(${price.USD.CHANGEPCT24HOUR.toFixed(1)}%)</font><br>
+        ${price.BTC.PRICE.toFixed(8)} BTC<br>
+        Marketcap: ${intlFormatter.format(price.USD.MKTCAP).slice(0,-3)}<br>
+        24hr vol: ${intlFormatter.format(price.USD.TOTALVOLUME24HTO).slice(0,-3)}
+
     </p>
     <p>
-	<a class="crypto-website" href="${urlCMC}" target="_blank">See on CoinMarketCap</a>
+	<center><a class="crypto-website" href="${urlCMC}" target="_blank">CoinMarketCap</a>
 	</p>
 	    <p>
-	<a class="crypto-website" href="${urlBitgur}" target="_blank">See on Bitgur</a>
+	<a class="crypto-website" href="${urlBitgur}" target="_blank">Bitgur</a></center>
 	</p>
   `
 }
@@ -38,14 +42,14 @@ const displayTooltipOnCashtag = function(event, template) {
 
   const currency = CRYPTOS_DATA[currencyTag];
   event.target.style.cursor = "progress";
-  const getPrice = fetch(`https://min-api.cryptocompare.com/data/price?fsym=${currencyTag}&tsyms=USD`).then(response => response.json());
+  const getPrice = fetch(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${currencyTag}&tsyms=USD,BTC`).then(response => response.json());
   // const getHistory = fetch(`https://min-api.cryptocompare.com/data/histohour?fsym=${currencyTag}&tsym=USD&limit=24&aggregate=1`).then(response => response.json());
 
   Promise.all([
     getPrice,
     // getHistory
   ]).then(responses => {
-    const price = responses[0];
+    const price = responses[0]['RAW'][currencyTag]
     /*
     const history = responses[1];
     console.log(history);
