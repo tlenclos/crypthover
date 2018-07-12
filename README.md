@@ -7,7 +7,7 @@
 Crypthover is a browser extension for Chrome, Firefox and Opera which allows you to get the latest price of crypto currencies on Twitter.
 
 <p align="center">
-<a href="https://chrome.google.com/webstore/detail/crypthover/kkmbecnhcledkjgdfgfbnochegmipifm"><img src="https://raw.githubusercontent.com/tlenclos/crypthover/master/icons/tooltip 0.0.3.png" /></a
+<a href="https://chrome.google.com/webstore/detail/crypthover/kkmbecnhcledkjgdfgfbnochegmipifm"><img src="https://raw.githubusercontent.com/tlenclos/crypthover/master/icons/tooltip 0.0.3 v2.png" /></a
 </p>
 
 ## Install
