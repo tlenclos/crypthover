@@ -23,7 +23,7 @@ If you encounter a problem using Crypthover, or would like to request an enhance
 
 Crypthover is not affiliated with, sponsored by, or endorsed by Twitter Inc.
 
-Copyright (c) 2017–present [ThibZ](https://github.com/tlenclos) & [Kanoe](https://github.com/kkanoee) Licensed under the MIT license.
+Copyright (c) 2017–present [ThibZ](https://github.com/tlenclos) & [kkanoee](https://github.com/kkanoee) Licensed under the MIT license.
 
 ## Donation:
 
